@@ -1,0 +1,199 @@
+.centre-container{
+    display: flex;
+    justify-content: center;
+    align-items: top;
+    height: 100vh;
+    width: 100%;
+}
+
+body *{
+    font-family: 'Open Sans', sans-serif;
+}
+
+h1 {
+    font-weight: 900;
+    font-size: 33px;
+    /* margin-left: 0px; */
+}
+
+body {
+    background-color: lightgray;
+    /* background-color: black; */
+}
+
+.page {
+    width: 1150px;
+    background-color: white;
+    margin: auto;
+    padding: 70px;
+    /* padding-right: 70px;
+    padding-left: 70px; */
+    padding-top: 35px;
+}
+
+.vis-container {
+    width: 100%;
+}
+
+.description h2,
+h1 {
+    margin-top: 0px;
+}
+
+.description-right {
+    padding-left: 20px;
+}
+
+.description-left {
+    padding-right: 20px;
+}
+
+.pure-g {
+    margin-bottom: 20px;
+}
+
+.serif {
+    font-family: serif; /* Set the font to serif */
+}
+
+.small-font {
+    font-size: 14px;
+}
+
+.highlight {
+        font-family: 'Creepster', cursive; /* Change to the Creepster font */
+        /* color: purple; Red color for blood */
+        /* color: rgba(128, 0, 128, 0.7); */
+        color: black;
+        text-shadow: 
+            1px 1px 0px rgba(0, 0, 0, 0.7), /* Dark shadow for depth */
+            0px 0px 8px rgba(255, 0, 0, 0.8), /* Glowing red effect */
+            0px 0px 2px rgba(255, 0, 0, 0.8); /*More glow */
+        font-weight: bold;
+        font-size: 2.0em; /* Increase font size for emphasis */
+        transform: rotate(-5deg); /* Slight rotation for a more chaotic look */
+    
+}
+
+.custom-container {
+    margin: 10px;
+    margin-bottom: 0px;
+}
+.map-container {
+    height: 400px;
+}
+.full-height-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+.half-height-container {
+    flex: 1;
+    margin-bottom: 0px;
+}
+/* Custom styles for visual hierarchy */
+.highlight {
+    color: black;
+    font-weight: bold;
+    font-size: 1.5em; /* Increase font size */
+}
+.highlightMsia {
+    font-family: 'Arial Black', sans-serif;
+    font-weight: bold;
+    font-size: 1.5em;
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
+    background-image: url('Flag_of_Malaysia.svg.webp'); /* Path to your image */
+    background-size: cover;
+    -webkit-background-clip: text;
+    
+    background-clip: text;
+    color: transparent; /* Hide text, show background */
+    position:  relative;
+}
+.highlightSg {
+    font-family: 'Arial Black', sans-serif;
+    font-weight: bold;
+    font-size: 1.5em;
+    text-shadow: 2px 2px 1px rgba(0, 0, 0, 0.15);
+    background-image: url('Flag_of_Singapore.svg.webp'); /* Path to your image */
+    background-size: cover;
+    -webkit-background-clip: text;
+    color: transparent; /* Hide text, show background */
+    position:  relative;
+}
+.highlightBrunei {
+    font-family: 'Arial Black', sans-serif;
+    font-weight: bold;
+    font-size: 1.5em;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.15);
+    background-image: url('Flag_of_Brunei.svg.png'); /* Path to your image */
+    background-size: cover;
+    -webkit-background-clip: text;
+    color: transparent; /* Hide text, show background */
+    position:  relative;
+}
+
+
+.highlight-light {
+    font-family: 'Creepster', cursive; /* Change to the Creepster font */
+    /* color: rgba(128, 0, 128, 0.7); Lighter purple with transparency */
+
+    /* text-shadow: 
+    1px 1px 0px rgba(0, 0, 0, 0.7), /* Dark shadow for depth */
+    /* 0px 0px 8px rgba(255, 0, 0, 0.4), Glowing red effect */
+    /* 0px 0px 2px rgba(255, 0, 0, 0.4); /*More glow */ 
+
+    color: black;
+    font-weight: bold; /* Keep bold for emphasis */
+    font-size: 1.5em; /* Same size as main highlight */
+}
+
+.frame-container {
+    border: 2px solid #ccc; /* Light gray border */
+    border-radius: 10px; /* Rounded corners */
+    padding: 10px; /* Padding inside the frame */
+    background-color: #fff; /* White background */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for the frame */
+    margin: 60px 0; /*Space between frames*/
+}
+
+.frame-container2 {
+    width: 100%; /* This makes the container span the entire row */
+    max-width: 100%;
+    padding: 20px;
+    border: 2px solid black; /* Add border to keep the frame */
+    border-radius: 10px; /* Rounded corners */
+    box-sizing: border-box;
+    text-align: center; /* Keeps the text centered */
+}
+
+.inner-text {
+    display: inline-block; /* Keeps the text in the same position */
+    text-align: center;
+  }
+
+.highlightWord {
+    font-size: 1.5em;
+    font-weight: bold;
+    /* color: #5bc0de; */
+    color: black;
+}
+
+.rank {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #f0ad4e;
+}
+
+.text-frame {
+    border: 2px solid black; /* Green border */
+    border-radius: 10px; /* Rounded corners */
+    padding: 100px; /* Padding around the text */
+    padding-top: 0px;
+    padding-bottom: 0px;
+    background-color: #f9f9f9; /* Light gray background */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    max-width: 1200px; /* Maximum width for the frame */
+    margin: 20px auto; /* Center the frame on the page */
+    text-align: center; /* Center the text */
+    }

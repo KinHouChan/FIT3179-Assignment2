@@ -1,0 +1,210 @@
+{
+    "$schema": "https://vega.github.io/schema/vega/v5.json",
+    "description": "A radar chart of death rates in 2021, filtered by state.",
+    "width": 575,
+    "height": 510,
+    "padding": 50,
+    "autosize": {"type": "none", "contains": "padding"},
+    
+    "signals": [
+      {
+        "name": "radius",
+        "update": "width / 2"
+      },
+      {
+        "name": "selectedState",
+        "value": "Johor",
+        "bind": {
+          "input": "select",
+          "options": [
+            "Johor", "Kedah", "Kelantan", "Melaka", "Negeri Sembilan",
+            "Pahang", "Perak", "Perlis", "Pulau Pinang", "Sabah", 
+            "Sarawak", "Selangor", "Terengganu", "Kuala Lumpur", 
+            "Labuan", "Putrajaya"
+          ],
+          "name": "State: "
+        }
+      }
+    ],
+  
+    "data": [
+      {
+        "name": "table",
+        "url": "./data/death_merged_state_2021.csv",
+        "format": {"type": "csv"},
+        "transform": [
+          {
+            "type": "filter",
+            "expr": "datum.state === selectedState"
+          },
+          {
+            "type": "fold",
+            "fields": ["rate_perinatal", "rate_neonatal", "rate_toddler", "rate_infant", "rate_maternal"],
+            "as": ["category", "value"]
+          },
+          {
+            "type": "formula",
+            "expr": "datum.category === 'rate_toddler' ? 'Toddler' : datum.category === 'rate_perinatal' ? 'Perinatal' : datum.category === 'rate_neonatal' ? 'Neonatal' : datum.category === 'rate_infant' ? 'Infant' : datum.category === 'rate_maternal' ? 'Maternal' : datum.category",
+            "as": "category"
+          }
+        ]
+      },
+      {
+        "name": "keys",
+        "source": "table",
+        "transform": [
+          {
+            "type": "aggregate",
+            "groupby": ["category"]
+          }
+        ]
+      }
+    ],
+  
+    "scales": [
+      {
+        "name": "angular",
+        "type": "point",
+        "range": {"signal": "[-3*PI/2, PI/2]"},
+        "padding": 0.5,
+        "domain": {"data": "table", "field": "category"}
+      },
+      {
+        "name": "radial",
+        "type": "linear",
+        "range": {"signal": "[0, radius]"},
+        "zero": true,
+        "nice": false,
+        "domain": {"data": "table", "field": "value"},
+        "domainMin": 0
+      }
+    ],
+  
+    "encode": {
+      "enter": {
+        "x": {"signal": "radius-30"},
+        "y": {"signal": "radius-5"}
+      }
+    },
+  
+    "marks": [
+      {
+        "type": "group",
+        "name": "categories",
+        "zindex": 1,
+        "from": {
+          "facet": {"data": "table", "name": "facet", "groupby": ["state"]}
+        },
+        "marks": [
+          {
+            "type": "line",
+            "name": "category-line",
+            "from": {"data": "facet"},
+            "encode": {
+              "enter": {
+                "interpolate": {"value": "linear-closed"},
+                "x": {"signal": "scale('radial', datum.value) * cos(scale('angular', datum.category))"},
+                "y": {"signal": "scale('radial', datum.value) * sin(scale('angular', datum.category))"},
+                "stroke": {"value": "purple"},
+                "strokeWidth": {"value": 1},
+                "fill": {"value": "purple"},
+                "fillOpacity": {"value": 0.1}
+              }
+            }
+          },
+          {
+            "type": "text",
+            "name": "value-text",
+            "from": {"data": "category-line"},
+            "encode": {
+              "enter": {
+                "x": {"signal": "datum.x"},
+                "y": {"signal": "datum.y"},
+                "text": {"signal": "datum.datum.value"},
+                "align": {"value": "center"},
+                "baseline": {"value": "middle"},
+                "fill": {"value": "black"}
+              }
+            }
+          },
+          {
+            "type": "symbol",
+            "name": "tooltip-points",
+            "from": {"data": "facet"},
+            "encode": {
+              "enter": {
+                "x": {"signal": "scale('radial', datum.value) * cos(scale('angular', datum.category))"},
+                "y": {"signal": "scale('radial', datum.value) * sin(scale('angular', datum.category))"},
+                "size": {"value": 100},  
+                "fill": {"value": "transparent"},  
+                "stroke": {"value": "transparent"},  
+                "strokeWidth": {"value": 0}
+              },
+              "update": {
+                "tooltip": {
+                  "signal": "{'State': selectedState, 'Rate Type': datum.category, 'Percentage': datum.value}"
+                }
+              }
+            }
+          }
+        ]
+      },
+      
+      {
+        "type": "rule",
+        "name": "radial-grid",
+        "from": {"data": "keys"},
+        "zindex": 0,
+        "encode": {
+          "enter": {
+            "x": {"value": 0},
+            "y": {"value": 0},
+            "x2": {"signal": "radius * cos(scale('angular', datum.category))"},
+            "y2": {"signal": "radius * sin(scale('angular', datum.category))"},
+            "stroke": {"value": "lightgray"},
+            "strokeWidth": {"value": 1}
+          }
+        }
+      },
+      {
+        "type": "text",
+        "name": "category-label",
+        "from": {"data": "keys"},
+        "encode": {
+          "enter": {
+            "x": {"signal": "(radius + 1) * cos(scale('angular', datum.category))"},
+            "y": {"signal": "(radius + 25) * sin(scale('angular', datum.category))"},
+            "text": {"field": "category"},
+            "align": {"value": "center"},
+            "baseline":[
+    
+                {
+                  "test": "scale('angular', datum.key) == 0", "value": "middle"
+                },
+                {
+                  "value": "bottom"
+                }
+              ],
+              
+            "fill": {"value": "black"},
+            "fontWeight": {"value": "bold"}
+          }
+        }
+      },
+      {
+        "type": "line",
+        "name": "outer-line",
+        "from": {"data": "radial-grid"},
+        "encode": {
+          "enter": {
+            "interpolate": {"value": "linear-closed"},
+            "x": {"field": "x2"},
+            "y": {"field": "y2"},
+            "stroke": {"value": "lightgray"},
+            "strokeWidth": {"value": 1}
+          }
+        }
+      }
+    ]
+  }
+  

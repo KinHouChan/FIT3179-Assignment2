@@ -1,0 +1,139 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": {
+    "text":"Death Rate of Malaysia in 2021",
+  "fontSize": 22},
+  "width": 1114,
+  "height": 474,
+  "config": {
+    "view": {
+ 
+    },
+    "legend": {
+      "gradientLength": 315
+    }
+  },
+  "projection": {
+    "type": "mercator",
+    "scale": 3200,
+    "center": [107, 4],
+    "clipExtent":[[0,0],[2000,500]],
+    "translate": [414, 250]
+  },
+  "layer": [
+    {
+      "transform": [
+        {"calculate": "'Data is not available in ' + datum.properties.name", "as": "note"}
+      ],
+      "mark": {"type": "geoshape", "fill": "lightgray", "stroke": "white"},
+      "encoding": {
+        "tooltip": {
+          "field": "note"
+        }
+      }
+    },
+    {
+      "data": {
+        "url": "./msia.json",
+        "format": { "type": "topojson", "feature": "my" }
+      },
+      "transform": [
+        {
+          "lookup": "properties.name",
+          "from": {
+            "data": {
+              "url": "./data/death_state.csv"
+            },
+            "key": "state1",
+            "fields": ["rate2"]
+          }
+        },
+        { "calculate": "datum.rate2 +2", "as": "Rate" }
+      ],
+      "mark": { "type": "geoshape"        ,"stroke": "white",
+      "strokeWidth": 0.6 },
+      "encoding": {
+        "color": {
+          "condition": {
+            "param": "selectedState",
+            "field": "rate2",
+            "type": "quantitative",
+            "title": "Death Rate (per 1000)",
+            "scale": {
+            "domain": [4.8, 6, 6.45, 6.7, 7, 7.2, 8.2],  
+            "range": ["#f2f0f7", "#dadaeb", "#bcbddc", "#9e9ac8", "#807dba", "#6a51a3", "#54278f", "#3f007d","#200040"],  
+            "type": "threshold"
+
+            },
+            "legend": {
+              "orient": "none",
+              "direction": "horizontal",
+              "legendX":398,
+              "legendY": 10,
+              "tickCount":8
+            }
+          },
+          "value": "lightgray"  
+        },
+        "tooltip": [
+          { "field": "properties.name", "type": "nominal", "title": "State" },
+          { "field": "rate2", "type": "quantitative", "title": "Death Rate (per 1000)" }
+        ]
+      },
+      "params": [
+        {
+          "name": "selectedState",
+          "select": { "type": "point", "fields": ["properties.name"], "on": "click" }
+        }
+      ]
+    },
+    {
+      "data": {
+        "url": "./msia.json",
+        "format": { "type": "topojson", "feature": "ne_110m_graticules_5" }
+      },
+      "mark": {"type": "geoshape", "stroke": "lightgray"}
+    },
+    {"data": {"values": [{}]},
+      "mark": {
+        "type": "text",
+        "align": "center",
+        "baseline": "middle",
+        "text": "Perak has the highest death rate in Malaysia,",
+        "dx": 1,
+        "dy": -80,
+        "fontWeight": "bold",
+        "fontStyle": "italic",
+        "fontSize": 13
+      }
+    },
+    {
+      "data": {"values": [{}]},
+      "mark": {
+        "type": "text",
+        "align": "center",
+        "baseline": "middle",
+        "text": "possibly due to low health expenditure per capita",
+        "dx": 1,
+        "dy": -60,
+        "fontWeight": "bold",
+        "fontStyle": "italic",
+        "fontSize": 13
+    }
+  },
+  {
+    "data": {"values": [{}]},
+    "mark": {
+      "type": "text",
+      "align": "center",
+      "baseline": "middle",
+      "text": "(limited healthcare resources)",
+      "dx": 1,
+      "dy": -40,
+      "fontWeight": "bold",
+      "fontStyle": "italic",
+      "fontSize": 13
+    }
+  }
+  ]
+}

@@ -1,0 +1,234 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "data": {
+    "url": "death-sex-year.json"
+  },
+  "config": {
+    "view": {
+      "stroke": null
+    },
+    "legend": {
+      "orient": "none",
+      "direction": "horizontal",
+      "columns": 0
+    }
+  },
+  "facet": {
+    "field": "Gender",
+    "title": "Gender",
+    "type": "nominal",
+    "header": {
+      "titleFontSize": 14
+    }
+  },
+  "spec": {
+    "width": 172,
+    "height": 400,
+    "transform": [
+      {
+        "filter": {
+          "field": "Year",
+          "oneOf": [2019, 2021]
+        }
+      },
+      {
+        "aggregate": [
+          {
+            "op": "mean",
+            "field": "Death rate",
+            "as": "Death rate"
+          }
+        ],
+        "groupby": ["Cause of death", "Year", "Gender"]
+      },
+      {
+        "pivot": "Year",
+        "value": "Death rate",
+        "groupby": ["Cause of death", "Gender"]
+      },
+      {
+        "fold": ["2019", "2021"],
+        "as": ["year", "Death rate"]
+      },
+      {
+        "calculate": "datum['2021'] - datum['2019']",
+        "as": "delta"
+      }
+    ],
+    "layer": [
+      {
+        "mark": "trail",
+        "encoding": {
+          "x": {
+            "field": "year",
+            "type": "ordinal",
+            "title": "Year",
+            "axis": {
+              "labelAngle": 0,
+              "labelFontSize": 10,
+              "titlePadding": 12,
+              "titleFontSize": 14
+            }
+          },
+          "y": {
+            "field": "Cause of death",
+            "type": "nominal",
+            "title": "Causes of Death",
+            "axis": {
+              "labelAngle": 0,
+              "labelFontSize": 10,
+              "titlePadding": 12,
+              "titleFontSize": 14
+            }
+          },
+          "size": {
+            "field": "Death rate",
+            "type": "quantitative",
+            "scale": {
+              "range": [0, 21]
+            },
+            "legend": {
+              "legendX": 210,
+              "legendY": 448,
+              "columnPadding": 0,
+              "labelOffset": 0
+            },
+            "title": "Death Rate"
+          },
+          "tooltip": [
+            {
+              "field": "year",
+              "type": "ordinal",
+              "title": "Year"
+            },
+            {
+              "field": "Death rate",
+              "type": "quantitative",
+              "title": "Death Rate (%)"
+            },
+            {
+              "field": "Cause of death",
+              "type": "nominal",
+              "title": "Cause of Death"
+            },
+            {
+              "field": "delta",
+              "type": "quantitative",
+              "title": "Change in Death Rate (%)"
+            }
+          ],
+          "color": {
+            "field": "delta",
+            "type": "quantitative",
+            "scale": {
+              "domainMid": 0,
+              "scheme": "purpleorange",
+              "reverse": true
+            },
+            "legend": {
+              "legendX": 0,
+              "legendY": 448
+            },
+            "title": "Change in Death Rate (%)"
+          }
+        }
+      },
+      {
+        "mark": {
+          "type": "line",
+          "strokeWidth": 20,
+          "color": "transparent"
+        },
+        "encoding": {
+          "x": {
+            "field": "year",
+            "type": "ordinal"
+          },
+          "y": {
+            "field": "Cause of death",
+            "type": "nominal"
+          },
+          "tooltip": [
+            {
+              "field": "year",
+              "type": "ordinal",
+              "title": "Year"
+            },
+            {
+              "field": "Death rate",
+              "type": "quantitative",
+              "title": "Death Rate (%)"
+            },
+            {
+              "field": "Cause of death",
+              "type": "nominal",
+              "title": "Cause of Death"
+            },
+            {
+              "field": "delta",
+              "type": "quantitative",
+              "title": "Change in Death Rate (%)"
+            }
+          ]
+        }
+      },
+      {
+        "mark": {
+          "type": "text",
+          "align": "center",
+          "baseline": "middle",
+          "dx": 4,
+          "dy": 102,
+          "fontStyle": "italic"
+        },
+        "encoding": {
+          "text": {
+            "condition": {
+              "test": "datum.Gender === 'Male'",
+              "value": "Breast cancer wasn't a leading"
+            },
+            "value": ""
+          }
+        }
+      },
+      {
+        "mark": {
+          "type": "text",
+          "align": "center",
+          "baseline": "middle",
+          "dx": 4,
+          "dy": 116,
+          "fontStyle": "italic"
+        },
+        "encoding": {
+          "text": {
+            "condition": {
+              "test": "datum.Gender === 'Male'",
+              "value": "cause of death for males"
+            },
+            "value": ""
+          }
+        }
+      },
+      {
+        "mark": {
+          "type": "text",
+          "align": "center",
+          "baseline": "middle",
+          "dx": 4,
+          "dy": 130,
+          "fontStyle": "italic"
+        },
+        "encoding": {
+          "text": {
+            "condition": {
+              "test": "datum.Gender === 'Male'",
+              "value": "in both years"
+            },
+            "value": ""
+          }
+        }
+      }
+    ]
+  }
+}

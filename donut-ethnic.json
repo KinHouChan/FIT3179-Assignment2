@@ -1,0 +1,167 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "data": {
+      "url": "./data/death-cause-ethnic.csv",
+      "format": {
+        "type": "csv"
+      }
+    },
+    "facet": {
+      "field": "Ethnic",
+      "type": "nominal",
+      "header":{
+        "titleFontSize": 14,
+        "labelFontSize": 13.5
+      }
+    },
+    "spec": {
+      "layer": [
+        {
+          "mark": {
+            "type": "arc",
+            "innerRadius": 90,
+            "stroke": "white",  
+            "strokeWidth": 10   
+  
+          },
+          "encoding": {
+            "theta": {
+              "field": "Percentage_of_death",
+              "type": "quantitative"
+            },
+            "color": {
+              "field": "Medically_certified_Death_Cause",
+              "type": "nominal",
+              "scale": {
+                "domain": [
+                  "COVID-19 infection (due to)",
+                  "Ischaemic heart diseases",
+                  "Pneumonia",
+                  "Cerebrovascular diseases",
+                  "Diabetes mellitus",
+                  "Others",
+                  "Lung and airway cancer",
+                  "Transport accidents"
+                ],
+                "range": [
+                  "#c0392b",  
+                  "#1f4e79",  
+                  "#d2b700",  
+                  "#ff7f0e",  
+                  "darkgrey",  
+                  "#7f4f4f",  
+                  "#5c4d9e",  
+                  "#00acc1"   
+                ]
+              },
+              "legend": {
+                "title": "Cause of Death"
+              }
+            },
+            "tooltip": [
+              {
+                "field": "Medically_certified_Death_Cause",
+                "type": "nominal",
+                "title": "Cause"
+              },
+              {
+                "field": "Percentage_of_death",
+                "type": "quantitative",
+                "title": "Percentage (%)"
+              }
+            ]
+          }
+        },
+        {
+          "transform": [
+            {
+              "calculate": "datum.Ethnic === 'Malay' ? 84256 : (datum.Ethnic === 'Chinese' ? 36324 : 14856)",
+              "as": "total_deaths"
+            }
+          ],
+          "mark": {
+            "type": "text",
+            "fontSize": 24,
+            "fontWeight": "bold",
+            "dy": 8
+          },
+          "encoding": {
+            "text": {
+              "field": "total_deaths",
+              "type": "quantitative"
+            },
+            "color": {
+              "value": "#000000"
+            },
+            "x": {
+              "value": 174
+            },
+            "y": {
+              "value": 155
+            }
+          }
+        },
+        {
+          "mark": {
+            "type": "text",
+            "fontSize": 18,
+            "fontWeight": "bold"
+          },
+          "encoding": {
+            "text": {
+              "value": "Total "
+            },
+            "color": {
+              "value": "#000000"
+            },
+            "x": {
+              "value": 138
+            },
+            "y": {
+              "value": 140
+            }
+          }
+        },
+        {
+          "mark": {
+            "type": "text",
+            "fontSize": 18,
+            "fontWeight": "bold",
+            "fontStyle": "normal"
+          },
+          "encoding": {
+            "text": {
+              "value": "Deaths"
+            },
+            "color": {
+              "value": "black"
+            },
+            "x": {
+              "value": 194
+            },
+            "y": {
+              "value": 140
+            }
+          }
+        }
+      ],
+      "view": {
+        "stroke": null
+      },
+      "width": 340,
+      "height": 300
+    },
+    "config": {
+      "facet": {
+        "spacing": 40
+      },
+      "legend": {
+        "orient": "none",
+        "direction": "horizontal",
+        "legendX": 100,
+        "legendY": 320
+
+      }
+    }
+  }
+  

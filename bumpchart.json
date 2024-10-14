@@ -1,0 +1,188 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  
+    "width":525,
+    "height": 525,
+    "config": {
+      "view": {
+        "stroke": null  
+      }
+    },
+    "data": {
+      "url": "./data/death_global_long.json",
+      "format": {"type": "json"}
+    },
+    "transform": [
+      {
+        "calculate": "split(datum.Year, ' ')[0]",
+        "as": "Year"
+      },
+      {
+        "calculate": "parseInt(datum.Year, 10)",
+        "as": "YearNum"
+      },
+      {
+        "filter": "datum.YearNum === 1981 || datum.YearNum === 1991 || datum.YearNum === 2001 || datum.YearNum === 2011 || datum.YearNum === 2021"
+      },
+      {
+        "filter": "datum.Rank <= sliderK"  
+      }
+    ],
+    "params": [
+      {
+        "name": "sliderK",  
+        "value": 8,  
+        "bind": {
+          "input": "range", 
+          "min": 3,
+          "max": 8,
+          "step": 1,
+          "name": "Top Rankings: "
+        }
+      }
+    ],
+    "layer": [
+      {
+        "mark": {
+          "type": "line",
+          "strokeWidth": 3,
+          "opacity": 0.7
+        },
+        "encoding": {
+          "x": {
+            "field": "Year",
+            "type": "ordinal",
+            "title": "Year",
+            "axis": {
+              "labelAngle": 0,
+              "labelFontSize": 12,
+              "titleFontSize": 14,
+              "grid": false
+            }
+          },
+          "y": {
+            "field": "Rank",
+            "type": "quantitative",
+            "title": "Rank",
+            "scale": {
+              "domain": ["Brunei Darussalam", "Cambodia", "Indonesia", "Lao PDR", "Malaysia", "Myanmar", "Philippines", "Singapore", "Thailand"],
+              "zero": false
+            },
+            "axis": {
+              "title": "Death Rate Rankings",
+              "grid": false,
+              "tickMinStep": 1,   
+              "labelFontSize": 12,
+              "titleFontSize": 14,
+              "values": {"expr": "sequence(1, sliderK+0.3)"},
+              "format": "d"
+            }
+          },
+          "color": {
+            "field": "Country Name",
+            "type": "nominal",
+            "scale": {
+              "domain": ["Brunei Darussalam", "Cambodia", "Indonesia", "Lao PDR", "Malaysia", "Myanmar", "Philippines", "Singapore", "Thailand"],
+              "range": ["yellow", "#ff7f0e", "#d62728", "#9467bd", "#8c564b", "#e377c2", "#7f7f7f", "pink", "#17becf"]
+            },
+            "legend": {
+              "title": "Country",
+              "orient": "none",
+              "legendX":38,
+              "legendY": -2,
+              "direction": "horizontal",
+              "columns": 5
+            }
+          },
+          "opacity": {
+            "condition": {
+              "param": "selectCountry",
+              "value": 1
+            },
+            "value": 0.2
+          },
+          "detail": {"field": "Country Name"},
+          "tooltip": [
+            {"field": "Country Name", "type": "nominal", "title": "Country"},
+            {"field": "Year", "type": "ordinal", "title": "Year"},
+            {"field": "Rank", "type": "quantitative", "title": "Rank"}
+          ]
+        },
+        "params": [
+          {
+            "name": "selectCountry",
+            "select": {"type": "point", "fields": ["Country Name"]}
+          }
+        ]
+      },
+      {
+        "mark": {
+          "type": "line"
+        },
+        "encoding": {
+          "tooltip": [
+            {"field": "Country Name", "type": "nominal", "title": "Country"},
+            {"field": "Year", "type": "ordinal", "title": "Year"},
+            {"field": "Rank", "type": "quantitative", "title": "Rank"}
+          ]  
+        }
+      },
+      {
+        "mark": {
+          "type": "image",
+          "width": 60,
+          "height": 35,
+          "align": "center",
+          "baseline": "middle"
+        },
+        "encoding": {
+          "x": {"field": "Year"},
+          "y": {
+            "field": "Rank",
+            "type": "quantitative",
+            "scale": {
+              "domain": {"expr": "[0, sliderK+1]"},
+              "reverse": true
+            }
+          },
+          "url": {"field": "Countryflag"},
+          "opacity": {
+            "condition": {
+              "param": "selectCountry",
+              "value": 1
+            },
+            "value": 0.2
+          },
+          "tooltip": [
+            {"field": "Country Name", "type": "nominal", "title": "Country"},
+            {"field": "Year", "type": "ordinal", "title": "Year"},
+            {"field": "Rank", "type": "quantitative", "title": "Rank"}
+          ]
+        }
+      },
+      {"data": {"values": [{}]},
+      "mark": {
+        "type": "text",
+        "fontSize": 10,
+        "text": "Malaysia, Singapore, and Brunei consistently hold the top three positions for the lowest death",
+        "dx": -2,
+        "dy": 235,
+        "fontWeight": "bold",
+        "fontStyle": "italic"
+      }
+    },
+    {
+        "data": {"values": [{}]},
+        "mark": {
+            "type": "text",
+            "fontSize": 10,
+            "text": "rates due to their strong healthcare systems.",
+            "dx": -2,
+            "dy": 245,
+            "fontWeight": "bold",
+            "fontStyle": "italic"
+        }
+    }
+    ]
+  }
+  

@@ -1,0 +1,134 @@
+{
+  "$schema": "https://vega.github.io/schema/vega/v5.json",
+  "description": "Sunburst chart showing causes of death by region.",
+  "width": 500,
+  "height": 600,
+
+  "data": [
+    {
+      "name": "tree",
+      "url": "./data/urban-death.csv",
+      "format": {"type": "csv"},
+      "transform": [
+        {
+          "type": "stratify",
+          "key": "id",
+          "parentKey": "parent"
+        },
+        {
+          "type": "partition",
+          "field": "size",
+          "sort": {"field": "size"},
+          "size": [{"signal": "2 * PI"}, {"signal": "width / 2"}],
+          "as": ["a0", "r0", "a1", "r1", "depth", "children"]
+        }
+      ]
+    }
+  ],
+
+  "scales": [
+      {
+          "name": "color",
+          "type": "ordinal",
+          "domain": {"data": "tree", "field": "Region"},
+          "range": ["white","#7A4D9F", "#B1D877", "#8CDCDA"] 
+      }
+  ],
+
+  "marks": [
+    {
+      "type": "arc",
+      "from": {"data": "tree"},
+      "encode": {
+        "enter": {
+          "x": {"signal": "width / 2"},
+          "y": {"signal": "height / 2"},
+          "fill": {"scale": "color", "field": "Region"},  
+          "tooltip": {
+        "signal": "datum.depth === 1 ? {'Region': datum.Region} : datum.depth === 2 ? {'Region': datum.Region, 'Deaths': format(datum.size,','), 'Cause': datum.name} : ''"
+        }
+      },
+        "update": {
+          "startAngle": {"field": "a0"},
+          "endAngle": {"field": "a1"},
+          "innerRadius": {"field": "r0"},
+          "outerRadius": {"field": "r1"},
+          "stroke": {"value": "white"},
+          "strokeWidth": {"value": 2.0},
+          "zindex": {"value": 0}
+        },
+        "hover": {
+          "stroke": {"value": "black"},
+          "strokeWidth": {"value": 2.5},
+          "zindex": {"value": 1}
+        }
+      }
+    },
+    {
+      "type": "text",
+      "from": {"data": "tree"},
+      "encode": {
+        "enter": {
+          "fill": {"value": "black"},
+          "align": {
+            "signal": "datum.depth > 2 ? (datum.a0 < PI ? 'left' : 'left') : 'center'"
+          },
+          "baseline": {"value": "middle"},
+          "text": {"field": "wrappedText"},
+          "x": {"signal": "width / 2"},
+          "y": {"signal": "height / 2"},
+          "radius": {
+            "signal": "datum.depth > 2 ? (datum.a0 > PI ? datum.r0 + 55 : datum.r0 + 5) : datum.r0 + 15 "
+          },
+          "theta": {"signal": "(datum.a0 + datum.a1) / 2"},
+          "fontSize": {"signal": "(datum.r1 - datum.r0) > 20 ? 10 : 8"},
+          "opacity": {"signal": "(datum.r1 - datum.r0) > 20 ? 1 : 0.5"},
+          "angle": {
+            "signal": "datum.depth > 0 ? (datum.a0 < PI ? ((datum.a0 + datum.a1) / 2) * (180 / PI) - 90 : ((datum.a0 + datum.a1) / 2) * (180 / PI) + 90) : 0"
+          }
+        }
+      }
+    },
+    {
+      "type": "text",
+      "encode": {
+        "enter": {
+          "x": {"signal": "width / 2"},
+          "y": {"signal": "height / 2 - 10"},  
+          "align": {"value": "center"},
+          "baseline": {"value": "middle"},
+          "fontSize": {"value": 18},
+          "fontWeight": {"value": "bold"},
+          "text": {"value": "Total Deaths:"}
+        }
+      }
+    },
+    {
+      "type": "text",
+      "encode": {
+        "enter": {
+          "x": {"signal": "width / 2"},
+          "y": {"signal": "height / 2+20"},
+          "align": {"value": "center"},
+          "baseline": {"value": "middle"},
+          "fontSize": {"value": 24},
+          "fontWeight": {"value": "bold"},
+          "text": {"signal": "format(86357,',')"}
+        }
+      }
+    },
+    {
+      "type": "text",
+      "encode": {
+        "enter": {
+          "x": {"value": -4},  
+          "y": {"value": 591},
+          "baseline": {"value": "middle"},
+          "fontSize": {"value": 14},
+          "fontStyle": {"value": "italic"},
+          "text": {"value": "Urban areas have more deaths than rural areas due to high population density"}
+        }
+      }
+    }
+  ]
+}

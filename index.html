@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/vega@5.20.2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.1.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.17.0"></script>
+    <script src="vega_lite_vis.js"></script>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/d3-sankey@0.12.3/dist/d3-sankey.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Creepster&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/pure-min.css" integrity="sha384-X38yfunGUhNzHpBaEBsWLO+A0HDYOQi8ufWDkZ0k9e0eXz/tH3II7uKZ9msv++Ls" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/grids-responsive-min.css" />
+    <link rel="stylesheet" href="style.css">
+    <title>Death Rate and Leading Cause of Death in Malaysia</title>
+    <style>
+
+    </style>
+</head>
+<body>
+    <div class="page">
+        <h1 class="serif" style="padding-left: 10px;">
+            <span class="highlight" style="font-size: 2.5em;">Death</span> <span style="font-family: serif; font-size: 1.6em;"> and its Leading Causes in</span> <span class="highlightMsia" style="font-size: 1.83em;">MALAYSIA</span> 
+        </h1>
+        
+        <div class="custom-container">
+            <div class="pure-g" style="margin: auto;">
+                <h2 class="serif" style="text-align: center; font-size: 1.8em; padding-left: 62px;">
+                    Health Spending and Mortality: Unveiling Trends in <span class="highlight-light">Death</span> Rates Across States
+                </h2> 
+            </div>            
+
+
+            <div class="pure-g">
+                <div class="pure-u-1-1">
+                    <select id="visualizationSelect" onchange="changeVisualization()" style="margin-left: 4.5px; ">
+                        <option value="map_death">Overall Death Map</option>
+                        <option value="death_cause">Death Cause Map</option>
+                        <option value="health_exp">Health Expenditure Map</option>
+                    </select>
+                        <div id="map_death"></div>
+                        <div id="death_cause" style="display:none;"></div>
+                        <div id="health_exp" style="display:none;"></div>
+                </div>
+            </div>
+            <div class="pure-g">
+                <div class="pure-u-1-2">
+                    <div class=" description description-left" style="padding-left: 2px;">
+                        <p>
+                            States with higher health expenditure per capita tend to have lower<br> <strong>death</strong> rates. 
+                            In <strong>2021</strong>, <span style="color: #c0392b;">COVID-19</span> and 
+                            <span style="color: #1f4e79;">ischaemic heart disease</span> <br>were the top causes of <strong>death</strong> across the country. 
+                        </p>
+
+                    </div>
+                </div>
+                <div class="pure-u-1-2">
+                    <div class="description description-right" style="padding-right: 0px;padding-left: 15px; margin-right: 0px;">
+                        <p>
+                            Neighbouring states often shared the same leading causes, 
+                            likely due to similar cultural practices and disease transmission. 
+                            Use the top-left dropdown menu to explore the map and uncover more insights.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+            
+            <div class="pure-g">
+                <div class="pure-u-1-2">
+                    <div class="description description-left " style="padding-left: 0px;">
+                        <h2 style="font-family: serif; font-size: 1.8em; margin-top: 30px;">
+                            Understanding <span class="highlight-light">Death</span> Rates Across Five <br>Vital Life Stages: How Do They Differ?
+                        </h2>
+                    </div>
+                    <div id="radarchart"></div>
+                </div>
+                <div class="pure-u-1-2">
+                    <div class="description description-right" style="padding-left: 14px;">
+                        <h2 style="font-family: serif; font-size: 1.8em; margin-top: 30px;">
+                            Top 10 <span class="highlight-light">Death</span> Leading Causes by Gender: A Comparison Across Two Years
+                        </h2>
+                    </div>
+                    <div id="comet" style="padding-right: 0px; padding-left: 12px;"></div>
+                </div>
+            </div>
+            <div class="pure-g">
+                <div class="pure-u-1-2">
+                    <div class="description description-left">
+                        <p>During the lockdown, limited access to medical care contributed to <br>higher 
+                            <strong>maternal death</strong> rates, especially in states like 
+                            <strong>Labuan</strong> and <br><strong>Putrajaya</strong>, 
+                            where healthcare disparities are more evident.
+                        </p>
+
+                    </div>
+                </div>
+                <div class="pure-u-1-2">
+                    <div class="description description-right" style="padding-right: 0px;padding-left: 20px; margin-right: 0px;">
+                    <p> 
+                        Between <strong>2019</strong> and <strong>2021</strong>, most leading causes of <strong>death</strong> declined, 
+                        while <br><span style="color: #c0392b;">COVID-19</span> surged. 
+                        Men were mostly affected by <span style="color: #1f4e79;">ischaemic heart disease</span>, 
+                        <br>while women continued facing risks from <strong>breast cancer</strong>. 
+                    </p>     
+                    </div>
+                </div>
+                <div class="pure-g" style="margin: auto;">
+                    <h2 class="serif" style="text-align: center; font-size: 1.8em; padding-right: 44px;">
+                        How Do Top 6 Leading Causes of <span class="highlight-light">Death</span> Vary Across Ethnic Communities?
+                    </h2> 
+                </div>
+                <div class="pure-g">
+                    <div id="donut-ethnic" style="margin-right: 60px;"></div>
+                </div>
+                
+                <div class="pure-g">
+                    <div class="pure-u-1-3">
+                        <div class="description description-left" style="padding-left: 0px;">
+                            <p> The <strong>Chinese</strong> community, with <strong>36,324</strong> <strong>death</strong>s, <br>faces a higher prevalence of <span style="color: #5c4d9e;">lung and airway <br>cancer</span>, likely tied to urbanization and <br>pollution in densely populated areas.</p>
+
+                        </div>
+                    </div>
+                    <div class="pure-u-1-3">
+                        <div class="description description-left" style="padding-left: 16px;">
+                            <p><span style="color: #1f4e79;">Ischaemic heart disease</span> caused <strong>17.40%</strong> <strong>Indian death</strong>s, linked to higher hypertension rates. <span style="color: #00acc1;">Transport accidents</span> are significant due to increased motorbike use.</p>
+                        </div>
+                    </div>
+                    <div class="pure-u-1-3">
+                        <div class="description description-right" style="padding-right: 0px; padding-left: 32px;">
+                            <p>
+                                The <strong>Malay</strong> community, with <strong>84,256</strong> total <br><strong>death</strong>s, shows high mortality from both <span style="color: #5c4d9e">lung<br>and airway cancer</span> and <span style="color: #1f4e79;">heart disease</span>, likely <br>linked to smoking and other lifestyle factors.
+                            </p>
+                        </div>
+
+                    </div>
+                </div>
+                    <div class="pure-g">
+                        <div class="pure-u-1-2">
+                            <div class="description description-left " style="padding-left: 0px;">
+                                <h2 style="font-family: serif; font-size: 1.8em; margin-top: 30px;">
+                                    <span class="highlight-light">Death</span> and the Urban-Rural Divide: Understanding the Mortality Landscape
+                                    <!-- Understanding <span class="highlight-light">Death</span> Rates Across Five <br>Vital Life Stages: How Do They Differ? -->
+                                </h2>
+                            </div>
+                            <div id="sunburst"></div>
+                        </div>
+                        <div class="pure-u-1-2">
+                            <div class="description description-right" style="padding-left: 12px;">
+                                <h2 style="font-family: serif; font-size: 1.8em; margin-top: 41px; line-height: 1.22em;">
+                                    <span class="highlightMsia" style="font-size: 1.2em;">Malaysia</span>’s Journey Through Mortality: Where Do We Stand in Southeast Asia?
+                                </h2>
+                            </div>
+                            <div id="bumpchart" style="padding-right: 0px; padding-left: 12px;"></div>
+                        </div>
+                    </div>
+                    <div class="pure-g">
+                        <div class="pure-u-1-2">
+                            <div class="description description-left " style="margin-top: 0px;">
+                                 <p>
+                                Both regions have <span style="color: #c0392b;">COVID-19</span> as one of the top two causes of <strong>death</strong>, 
+                                <br>with urban areas experiencing <span style="font-weight: bold; font-size: 18px;">four</span> times the fatalities due to 
+                                higher incidence rates in densely populated regions.
+    
+                                </p>
+        
+                            </div>
+                        </div>
+                        <div class="pure-u-1-2">
+                            <div class="description description-right" style="padding-right: 0px;padding-left: 12px; margin-right: 0px; margin-top: 0px;">
+                            <p> 
+                                <span class="highlightMsia" style="font-size: 1.0em;">Malaysia</span> ranks <strong>6</strong>th out of <strong>8</strong> 
+                                countries in Southeast Asia for <strong>death</strong> rates. 
+                                <strong>Noncommunicable</strong> diseases account for <span style="font-weight: bold; font-size: 18px;">two-thirds</span> of all deaths in the region, 
+                                with half occurring in those aged <strong>30-69</strong> age group.
+                            </p>     
+                            </div>
+                
+                </div>
+
+    <div style="  margin: auto;">
+
+
+        <div style="text-align: center; font-size:x-small">
+            <p style="margin-top: 50px;">
+                © 2024 Visualization by Chan Kin Hou<br>
+                Data collected from the:<br><br>
+                <a href="https://newss.statistics.gov.my/newss-portalx/ep/epFreeDownloadContentSearch.seam?cid=680779" target="_blank">Jadual Perangkaan Penting Malaysia 2022</a><br>
+                by Department of Statistics Malaysia (27 October 2022)<br>
+                <br>
+                <a href="https://data.gov.my/data-catalogue">Malaysia's Official Open Data Portal</a><br>
+                by Government of Malaysia (17 October 2023)<br>
+                <br>
+                <a href="https://www.moh.gov.my/moh/resources/Penerbitan/Penerbitan%20Utama/HEALTH%20FACTS/Health_Facts_2022-updated.pdf" target="_blank">Health Facts 2022</a><br>
+                by Ministry of Health Malaysia (October 2022)<br>
+                <br>
+                <a href="https://data.worldbank.org/indicator/SP.DYN.CDRT.IN?end=2021&locations=MY-TH-SG-BN-ID-PH-LA-KH&start=1960" target="_blank">World Bank Statistics</a><br>
+                by World Bank Group (2021)<br>
+                <br>
+            </p>
+        </div>
+
+    </div>
+                
+            </div>
+        </div>
+    </div>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+    <script type="text/javascript">
+        var vg_1 = "./map_dv1.json";
+        var vg_2 = "./death-cause-by-state.json";
+        var vg_3 = "./health-exp.json";
+        var vg_4 = "./comet.json";
+        var vg_5 = "./bumpchart.json";
+        var vg_6 = "./radarchart.json";
+        var vg_8 = "./donut-ethnic.json";
+        var vg_9 = "./sunburst-urban.json";
+        // var vg_11 = "./sankey.js";
+        vegaEmbed('#map_death', vg_1, { actions: false }).then(function (result) {
+            // Access the Vega view instance for map_death
+        }).catch(console.error);
+    
+        vegaEmbed('#death_cause', vg_2, { actions: false }).then(function (result) {
+            // Access the Vega view instance for death_cause
+        }).catch(console.error);
+    
+        vegaEmbed('#health_exp', vg_3, { actions: false }).then(function (result) {
+            // Access the Vega view instance for health_exp
+        }).catch(console.error);
+    
+        vegaEmbed('#comet', vg_4, { actions: false }).then(function (result) {
+            // Access the Vega view instance for comet
+        }).catch(console.error);
+    
+        vegaEmbed('#bumpchart', vg_5, { actions: false }).then(function (result) {
+            // Access the Vega view instance for bumpchart
+        }).catch(console.error);
+    
+        vegaEmbed('#radarchart', vg_6, { actions: false }).then(function (result) {
+            // Access the Vega view instance for radarchart
+        }).catch(console.error);
+    
+        vegaEmbed('#donut-ethnic', vg_8, { actions: false }).then(function (result) {
+            // Access the Vega view instance for donut-ethnic
+        }).catch(console.error);
+
+        vegaEmbed('#sunburst', vg_9, { actions: false }).then(function (result) {
+            // Access the Vega view instance for sunburst
+        }).catch(console.error);
+        var currentVisualization = 0;
+
+        function changeVisualization() {
+        var selectedValue = document.getElementById('visualizationSelect').value;
+        var mapDeath = document.getElementById('map_death');
+        var deathCause = document.getElementById('death_cause');
+        var healthExp = document.getElementById('health_exp');
+
+        mapDeath.style.display = (selectedValue === "map_death") ? "block" : "none";
+        deathCause.style.display = (selectedValue === "death_cause") ? "block" : "none";
+        healthExp.style.display = (selectedValue === "health_exp") ? "block" : "none";
+}
+
+    </script>
+    
+</body>
+</html>
+
+
+
