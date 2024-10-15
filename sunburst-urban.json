@@ -78,13 +78,13 @@
           "x": {"signal": "width / 2"},
           "y": {"signal": "height / 2"},
           "radius": {
-            "signal": "datum.depth > 2 ? (datum.a0 > PI ? datum.r0 + 55 : datum.r0 + 5) : datum.r0 + 15 "
+            "signal": "datum.depth > 2 ? (datum.a0 > PI ? datum.r0 + 55 : datum.r0 + 5) : datum.r0 + 30 "
           },
           "theta": {"signal": "(datum.a0 + datum.a1) / 2"},
-          "fontSize": {"signal": "(datum.r1 - datum.r0) > 20 ? 10 : 8"},
+          "fontSize": {"signal": "(datum.r1 - datum.r0) > 20 ? 18 : 8"},
           "opacity": {"signal": "(datum.r1 - datum.r0) > 20 ? 1 : 0.5"},
           "angle": {
-            "signal": "datum.depth > 0 ? (datum.a0 < PI ? ((datum.a0 + datum.a1) / 2) * (180 / PI) - 90 : ((datum.a0 + datum.a1) / 2) * (180 / PI) + 90) : 0"
+            "signal": "datum.depth > 0 ? (datum.a0 < PI ? ((datum.a0 + datum.a1) / 2) * (180 / PI) + 180 : ((datum.a0 + datum.a1) / 2) * (180 / PI)) : 0"
           }
         }
       }
@@ -122,11 +122,119 @@
       "encode": {
         "enter": {
           "x": {"value": -4},  
-          "y": {"value": 591},
+          "y": {"value": 588},
           "baseline": {"value": "middle"},
           "fontSize": {"value": 14},
           "fontStyle": {"value": "italic"},
           "text": {"value": "Urban areas have more deaths than rural areas due to high population density"}
+        }
+      }
+    },
+    {
+      "type": "text",
+      "encode": {
+        "enter": {
+          "x": {"value": 403},  
+          "y": {"value": 100},
+          "baseline": {"value": "middle"},
+          "fontSize": {"value": 14},
+          "text": {"value": "COVID-19"}
+        }
+      }
+    },
+    {
+      "type": "text",
+      "encode": {
+        "enter": {
+          "x": {"value": 348},  
+          "y": {"value": 540},
+          "baseline": {"value": "middle"},
+          "fontSize": {"value": 14},
+          "text": {"value": "Ischaemic heart disease"}
+        }
+      }
+    },
+    {
+      "type": "text",
+      "encode": {
+        "enter": {
+          "x": {"value": 348},  
+          "y": {"value": 540},
+          "baseline": {"value": "middle"},
+          "fontSize": {"value": 14},
+          "text": {"value": "Ischaemic heart disease"}
+        }
+      }
+    },
+    {
+      "type": "text",
+      "encode": {
+        "enter": {
+          "x": {"value": 102},  
+          "y": {"value": 540},
+          "baseline": {"value": "middle"},
+          "fontSize": {"value": 14},
+          "text": {"value": "Pneumonia"}
+        }
+      }
+    },
+    {
+      "type": "text",
+      "encode": {
+        "enter": {
+          "x": {"value": 0},  
+          "y": {"value": 130},
+          "baseline": {"value": "middle"},
+          "fontSize": {"value": 14},
+          "text": {"value": "Ischaemic"}
+        }
+      }
+    },
+    {
+      "type": "text",
+      "encode": {
+        "enter": {
+          "x": {"value": 0},  
+          "y": {"value": 145},
+          "baseline": {"value": "middle"},
+          "fontSize": {"value": 14},
+          "text": {"value": "heart"}
+        }
+      }
+    },
+    {
+      "type": "text",
+      "encode": {
+        "enter": {
+          "x": {"value": 0},  
+          "y": {"value": 160},
+          "baseline": {"value": "middle"},
+          "fontSize": {"value": 14},
+          "text": {"value": "disease"}
+        }
+      }
+    },
+    {
+      "type": "text",
+      "encode": {
+        "enter": {
+          "x": {"value": 0},  
+          "y": {"value": 290},
+          "baseline": {"value": "middle"},
+          "fontSize": {"value": 14},
+          "text": {"value": "COVID-19"}
+        }
+      }
+    },
+    {
+      "type": "text",
+      "encode": {
+        "enter": {
+          "x": {"value": 36},  
+          "y": {"value": 90},
+          "baseline": {"value": "middle"},
+          "fontSize": {"value": 14},
+          "text": {"value": "Pneumonia"}
         }
       }
     }
