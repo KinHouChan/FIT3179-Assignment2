@@ -142,7 +142,7 @@
               },
               "update": {
                 "tooltip": {
-                  "signal": "{'State': selectedState, 'Rate Type': datum.category, 'Percentage': datum.value}"
+                  "signal": "{'State': selectedState, 'Rate Type': datum.category, 'Percentage (%)': datum.value}"
                 }
               }
             }
