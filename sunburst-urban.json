@@ -122,10 +122,11 @@
       "encode": {
         "enter": {
           "x": {"value": -4},  
-          "y": {"value": 588},
+          "y": {"value": 590},
           "baseline": {"value": "middle"},
           "fontSize": {"value": 14},
           "fontStyle": {"value": "italic"},
+          "fontWeight": {"value": "bold"},
           "text": {"value": "Urban areas have more deaths than rural areas due to high population density"}
         }
       }
@@ -139,18 +140,6 @@
           "baseline": {"value": "middle"},
           "fontSize": {"value": 14},
           "text": {"value": "COVID-19"}
-        }
-      }
-    },
-    {
-      "type": "text",
-      "encode": {
-        "enter": {
-          "x": {"value": 348},  
-          "y": {"value": 540},
-          "baseline": {"value": "middle"},
-          "fontSize": {"value": 14},
-          "text": {"value": "Ischaemic heart disease"}
         }
       }
     },
