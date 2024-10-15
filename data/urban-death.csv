@@ -1,13 +1,13 @@
-id,name,parent,size,Region
+id,name,parent,size,Region,wrappedText
 1,Region with corresponding Top 5 Leading Death Causes,,
-2,Urban,1,,Urban
-3,COVID-19 infection (due to),2,24520,Urban
+2,Urban,1,,Urban,Urban
+3,COVID-19 infection (due to),2,24520,Urban,
 4,Ischaemic heart diseases,2,14931,Urban
 5,Pneumonia,2,12656,Urban
 6,Cerebrovascular diseases,2,6605,Urban
 7,Transport accidents,2,1954,Urban
 8,Lung and airway cancer,2,1977,Urban
-9,Rural,1,,Rural
+9,Rural,1,,Rural,Rural
 10,COVID-19 infection (due to),9,6543,Rural
 11,Ischaemic heart diseases,9,6554,Rural
 12,Pneumonia,9,4847,Rural
